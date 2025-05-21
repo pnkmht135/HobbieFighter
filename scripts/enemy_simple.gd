@@ -9,7 +9,7 @@ extends CharacterBody2D
 
 # NOTE !! Raycasting (and I assume of
 # slightly slower and less jumpy than player
-const SPEED = 90.0
+const SPEED = 50.0
 const JUMP_VELOCITY = -250.0
 const WALL_RAYCAST_LEN= 10
 
@@ -38,12 +38,12 @@ func _physics_process(delta: float) -> void:
 	if direction > 0: # facing right
 		animated_sprite.flip_h= false
 		raycast_wall.target_position=Vector2(1, 0.0) * WALL_RAYCAST_LEN
-		raycast_jump.target_position=Vector2(1, 0.0) * WALL_RAYCAST_LEN*2
+		raycast_jump.target_position=Vector2(1, 0.0) * WALL_RAYCAST_LEN#*2
 		#raycast_wall.set_target_position()
 	elif direction<0: # facing left
 		animated_sprite.flip_h= true # ?change this so that it uses fresh spritesheet with proper shading
 		raycast_wall.target_position=Vector2(-1, 0.0) * WALL_RAYCAST_LEN
-		raycast_jump.target_position=Vector2(-1, 0.0) * WALL_RAYCAST_LEN*2
+		raycast_jump.target_position=Vector2(-1, 0.0) * WALL_RAYCAST_LEN#*2
 		#raycast_wall.cast_to = Vector2(-10.0, 0.0) *100
 	# Play da correct animations
 	if is_on_floor():
