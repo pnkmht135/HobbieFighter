@@ -4,7 +4,8 @@ extends CharacterBody2D
 const SPEED = 100.0
 const JUMP_VELOCITY = -300.0
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-
+@onready var player: CharacterBody2D = $"."
+@onready var death_timer: Timer = $Hitbox/Timer
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -39,3 +40,14 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
+
+
+# Death detection for environmental hazards (collision mask/layer 3)
+func _on_hitbox_body_entered(body: Node2D) -> void:
+	#Engine.time_scale=0.5
+	print("you died! Environmental Hazard")
+	player.get_node("CollisionShape2D").queue_free()
+	death_timer.start()
+
+func _on_timer_timeout() -> void:
+	get_tree().reload_current_scene()
