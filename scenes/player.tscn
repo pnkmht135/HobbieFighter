@@ -105,7 +105,7 @@ position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_fjrip")
 animation = &"Idle"
 autoplay = "Idle"
-frame_progress = 0.221861
+frame_progress = 0.23438
 
 [node name="Hitbox" type="Area2D" parent="."]
 collision_mask = 4

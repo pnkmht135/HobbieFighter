@@ -42,7 +42,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-# Death detection for environmental hazards (collision mask/layer 3)
+# Death detection for environmental hazards (collision mask/layer 3 using hitbox)
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	#Engine.time_scale=0.5
 	print("you died! Environmental Hazard")

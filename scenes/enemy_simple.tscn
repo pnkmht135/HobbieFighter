@@ -1,0 +1,138 @@
+[gd_scene load_steps=17 format=3 uid="uid://ms0tc24e110f"]
+
+[ext_resource type="Script" uid="uid://dphkeyakd0xdr" path="res://scripts/enemy_simple.gd" id="1_5uy6h"]
+[ext_resource type="Texture2D" uid="uid://sdl1yr4fpsgk" path="res://assets/Player/idle.png" id="1_md0e3"]
+[ext_resource type="Texture2D" uid="uid://djfowxke0m2cc" path="res://assets/Player/run.png" id="2_4ra3w"]
+[ext_resource type="PackedScene" uid="uid://dj1dhf6q37ntp" path="res://scenes/killzone.tscn" id="3_4ra3w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
+size = Vector2(7, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5uy6h"]
+size = Vector2(11, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
+atlas = ExtResource("1_md0e3")
+region = Rect2(0, 0, 20, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dqkch"]
+atlas = ExtResource("1_md0e3")
+region = Rect2(20, 0, 20, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qlg0r"]
+atlas = ExtResource("1_md0e3")
+region = Rect2(40, 0, 20, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tuyoq"]
+atlas = ExtResource("1_md0e3")
+region = Rect2(60, 0, 20, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2wvv"]
+atlas = ExtResource("2_4ra3w")
+region = Rect2(150, 0, 30, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjrip"]
+atlas = ExtResource("2_4ra3w")
+region = Rect2(30, 0, 30, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smehm"]
+atlas = ExtResource("2_4ra3w")
+region = Rect2(60, 0, 30, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ur7pv"]
+atlas = ExtResource("2_4ra3w")
+region = Rect2(90, 0, 30, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4r1p"]
+atlas = ExtResource("2_4ra3w")
+region = Rect2(120, 0, 30, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5uy6h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhqgy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dqkch")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qlg0r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tuyoq")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2wvv")
+}],
+"loop": true,
+"name": &"Jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjrip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smehm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ur7pv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4r1p")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 5.0
+}]
+
+[node name="enemy_simple" type="CharacterBody2D"]
+collision_mask = 5
+script = ExtResource("1_5uy6h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -11)
+shape = SubResource("RectangleShape2D_md0e3")
+
+[node name="RayCastWall" type="RayCast2D" parent="CollisionShape2D"]
+unique_name_in_owner = true
+position = Vector2(0.5, -16.5)
+target_position = Vector2(10, 0)
+
+[node name="RayCastLedgeRight" type="RayCast2D" parent="CollisionShape2D"]
+unique_name_in_owner = true
+position = Vector2(3.5, 14.5)
+target_position = Vector2(0, 45)
+
+[node name="RayCastLedgeLeft" type="RayCast2D" parent="CollisionShape2D"]
+unique_name_in_owner = true
+position = Vector2(-3.5, 14.5)
+target_position = Vector2(0, 45)
+
+[node name="RayCastJump" type="RayCast2D" parent="CollisionShape2D"]
+unique_name_in_owner = true
+position = Vector2(1, 9)
+target_position = Vector2(20, 0)
+
+[node name="Killzone (temp)" parent="." instance=ExtResource("3_4ra3w")]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone (temp)"]
+position = Vector2(0.5, -12)
+shape = SubResource("RectangleShape2D_5uy6h")
+debug_color = Color(0.995213, 0, 0.209153, 0.42)
+
+[node name="AnimatedSprite2DEnemy" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0.165717, 0.327919, 1, 1)
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_5uy6h")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.27389
