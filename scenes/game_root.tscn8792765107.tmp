@@ -201,8 +201,6 @@ position_smoothing_enabled = true
 
 [node name="Attack" parent="Player" instance=ExtResource("6_a1rh6")]
 position = Vector2(-2, 2)
-metadata/Cooldown = 10
-metadata/Speed = 5
 
 [node name="Killzone" parent="." instance=ExtResource("3_uebra")]
 
@@ -211,7 +209,6 @@ shape = SubResource("WorldBoundaryShape2D_jb3nc")
 
 [node name="enemy" parent="." instance=ExtResource("4_jb3nc")]
 position = Vector2(623, -1)
-metadata/Speed = 0
 
 [node name="enemy_follows" parent="." instance=ExtResource("5_iusj4")]
 position = Vector2(903, 12)

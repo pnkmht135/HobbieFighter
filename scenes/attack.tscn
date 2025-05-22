@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://t3qpntly515h"]
+
+[ext_resource type="Script" uid="uid://cj5hpquu1jmww" path="res://scripts/attack.gd" id="1_nursx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nursx"]
+size = Vector2(20, 6)
+
+[node name="Attack" type="Area2D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_nursx")
+metadata/Damage = 1
+metadata/Knockback = 1
+metadata/Cooldown = 1
+metadata/Speed = 1
+metadata/Key = "Click"
+
+[node name="DefaultAOE" type="CollisionShape2D" parent="."]
+position = Vector2(14, -16)
+shape = SubResource("RectangleShape2D_nursx")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
