@@ -1,56 +1,25 @@
 extends CharacterBody2D
 
+@onready var state_machine=$state_machine
+@onready var animations: AnimatedSprite2D = $animations
 
-const SPEED = 100.0
-const JUMP_VELOCITY = -300.0
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var death_timer: Timer = $Hitbox/Timer #change this?
+# Flippable objects prepared:
 @onready var attack: Area2D = $Attack
 
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+func _ready() -> void:
+# initialise the state machine and pass itself to the function
+	state_machine.init(self)
+	
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+	state_machine.process_physics(delta)
 
-	# Handle jump.
-	if Input.is_action_just_pressed("Jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+func _unhandled_input(event: InputEvent) -> void:
+	state_machine.process_input(event)
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("Move_left", "Move_right")
-
-#	Flip sprite and attack dir
-	if direction > 0:
-		animated_sprite.flip_h= false
-		attack.scale.x=direction
-	elif direction<0:
-		animated_sprite.flip_h= true # change this so that it uses fresh spritesheet with proper shading
-		attack.scale.x=direction
-	
-	# Play da correct animations
-	if is_on_floor():
-		if direction == 0:
-			animated_sprite.play("Idle")
-		else:
-			animated_sprite.play("Run")
-	else:
-		animated_sprite.play("Jump")
-	
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
-	move_and_slide()
-
-
-# Death detection for environmental hazards (collision mask/layer 3 using hitbox)
-func _on_hitbox_body_entered(body: Node2D) -> void:
-	#Engine.time_scale=0.5
-	print("you died! Environmental Hazard")
-	get_node("CollisionShape2D").queue_free()
-	death_timer.start()
-
-func _on_timer_timeout() -> void:
-	get_tree().reload_current_scene()
+func _process(delta: float) -> void:
+	pass
+# _process (delta) that passes delata to a frame processor in state machine?
+# apparently _process handles non-physics logic like animating sprites?!
