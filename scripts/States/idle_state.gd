@@ -9,6 +9,8 @@ var fall_state: State
 var jump_state: State
 @export
 var attack_state: State
+@export
+var attack2_state: State
 
 @export 
 var stop_slide: float = 0.000000001
@@ -34,6 +36,8 @@ func process_input(event: InputEvent)->State:
 		return run_state
 	if Input.is_action_just_pressed("Click") and parent.is_on_floor():
 		return attack_state
+	if Input.is_action_just_pressed("ClickR") and parent.is_on_floor():
+		return attack2_state
 	#else:
 		#if Input.is_action_just_pressed("Move_left") or Input.is_action_just_pressed("Move_right"):
 			#var direction := Input.get_axis("Move_left", "Move_right")

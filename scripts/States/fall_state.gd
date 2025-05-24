@@ -30,5 +30,7 @@ func process_input(event:InputEvent):
 	#Flip sprite and attack dir
 	elif direction != 0:
 		parent.animations.flip_h= direction<0
-		parent.attack.scale.x=direction
+		if parent.flippable:
+			for obj in parent.flippable:
+				obj.scale.x=direction
 	return null

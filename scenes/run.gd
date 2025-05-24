@@ -24,8 +24,10 @@ func process_physics(delta: float)->State:
 #Flip sprite and attack dir
 	if direction != 0:
 		parent.animations.flip_h= direction<0
-		parent.attack.scale.x=direction
-# change the above to incase parent doesnt have attack?	idk
+		if parent.flippable:
+			for obj in parent.flippable:
+				obj.scale.x=direction
+
 	if SPEED:
 		parent.velocity.x = direction * SPEED 
 	parent.move_and_slide()

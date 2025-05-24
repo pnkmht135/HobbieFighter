@@ -4,7 +4,10 @@ extends CharacterBody2D
 @onready var animations: AnimatedSprite2D = $animations
 
 # Flippable objects prepared:
-@onready var attack: Area2D = $Attack
+@onready var flippable: Array[Node] = [
+	$attack1AOE,
+	$attack2AOE
+	]
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0

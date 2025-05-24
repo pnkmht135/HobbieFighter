@@ -9,7 +9,7 @@ extends CharacterBody2D
 
 # slightly slower and less jumpy than player
 @export var SPEED: int = 20.0
-@export var CHASE_BOOST: int =1.5
+@export var CHASE_BOOST: float =1.5
 @export var FOLLOWS: bool = true
 const JUMP_VELOCITY = -250.0
 const WALL_RAYCAST_LEN= 10
