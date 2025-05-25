@@ -188,7 +188,7 @@ tile_map_data = PackedByteArray("AAAAAAUAAAAAAAAAAAABAAUAAAAAAAAAAAACAAUAAAAAAAA
 tile_set = SubResource("TileSet_jb3nc")
 
 [node name="Player" parent="." instance=ExtResource("1_78s5d")]
-position = Vector2(500, -57)
+position = Vector2(927, 34)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -10)
@@ -204,6 +204,7 @@ shape = SubResource("WorldBoundaryShape2D_jb3nc")
 
 [node name="enemy" parent="." instance=ExtResource("4_jb3nc")]
 position = Vector2(985, 17)
-SPEED = 0
+SPEED = 50
+JUMP_VELOCITY = -300.0
 FOLLOWS = false
 metadata/Speed = 0

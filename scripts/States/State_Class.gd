@@ -6,6 +6,7 @@ extends Node
 
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 var parent: CharacterBody2D
+var movement_handler: Node #change to be its own class
 
 func enter() ->void:
 ### Check if parent has animations (should have)
@@ -29,3 +30,11 @@ func process_frame(delta: float)->State:
 	return null
 # what is a frame and what do i need to do with it????
 	
+func want_jump()->bool:
+	return movement_handler.want_jump()
+
+func move()->bool:
+	return movement_handler.move()
+	
+func get_direction()->float:
+	return movement_handler.get_direction()

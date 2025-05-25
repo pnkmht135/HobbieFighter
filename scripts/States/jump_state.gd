@@ -19,7 +19,8 @@ func process_physics(delta: float) -> State:
 	if parent.velocity.y>0:
 		return fall_state
 		
-	direction= Input.get_axis("Move_left", "Move_right")
+	direction= get_direction()
+	#direction= Input.get_axis("Move_left", "Move_right")
 #Flip sprite and attack dir
 	if direction != 0:
 		parent.animations.flip_h= direction<0
@@ -36,7 +37,4 @@ func process_physics(delta: float) -> State:
 		if direction!=0:
 			return run_state
 		return idle_state
-	return null
-
-func process_input(event: InputEvent)->State:
 	return null

@@ -4,10 +4,11 @@ extends Node
 
 var current_state: State
 
-func init(parent: CharacterBody2D)->void:
+func init(parent: CharacterBody2D, movement_handler)->void:
 	# Set parent for all states in the machine 
 	for child in get_children():
 		child.parent=parent
+		child.movement_handler=movement_handler
 		
 	# enter starting state
 	change_state(starting_state)
@@ -20,6 +21,7 @@ func change_state(new_state: State):
 	# enter new state
 	current_state=new_state
 	current_state.enter()
+	print(new_state.name)
 
 func process_physics(delta: float) -> void:
 	var new_state = current_state.process_physics(delta)

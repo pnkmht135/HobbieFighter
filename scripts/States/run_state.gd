@@ -11,6 +11,7 @@ var jump_state: State
 
 @export
 var SPEED: int=100
+# how to make this same as parent.speed??? like a cool way of doint it
 
 var direction
 
@@ -18,7 +19,7 @@ func enter():
 	super()
 
 func process_physics(delta: float)->State:
-	direction= Input.get_axis("Move_left", "Move_right")
+	direction= get_direction()
 	parent.velocity.y+= gravity*delta
 	
 #Flip sprite and attack dir
@@ -39,7 +40,6 @@ func process_physics(delta: float)->State:
 	return null
 
 func process_input(event: InputEvent)->State:
-	#if parent.is_on_floor():
-	if Input.is_action_pressed("Jump") and parent.is_on_floor():
+	if want_jump() and parent.is_on_floor():
 		return jump_state		
 	return null	

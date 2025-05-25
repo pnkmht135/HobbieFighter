@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @onready var state_machine=$state_machine
 @onready var animations: AnimatedSprite2D = $animations
+@export var movement_handler: Node 
 
 # Flippable objects prepared:
 @onready var flippable: Array[Node] = [
@@ -14,7 +15,7 @@ const JUMP_VELOCITY = -400.0
 
 func _ready() -> void:
 # initialise the state machine and pass itself to the function
-	state_machine.init(self)
+	state_machine.init(self, movement_handler)
 	
 func _physics_process(delta: float) -> void:
 	state_machine.process_physics(delta)

@@ -1,17 +1,45 @@
-[gd_scene load_steps=19 format=3 uid="uid://ms0tc24e110f"]
+[gd_scene load_steps=31 format=3 uid="uid://ms0tc24e110f"]
 
-[ext_resource type="Script" uid="uid://dphkeyakd0xdr" path="res://scripts/enemy_simple.gd" id="1_5uy6h"]
+[ext_resource type="Script" uid="uid://ds5ghem74uj71" path="res://scripts/Enemy/enemy_simple.gd" id="1_5uy6h"]
 [ext_resource type="Texture2D" uid="uid://sdl1yr4fpsgk" path="res://assets/Player/idle.png" id="1_md0e3"]
 [ext_resource type="Texture2D" uid="uid://djfowxke0m2cc" path="res://assets/Player/run.png" id="2_4ra3w"]
 [ext_resource type="PackedScene" uid="uid://dlbs44q48nvbp" path="res://scenes/health_component.tscn" id="2_6wrfq"]
 [ext_resource type="PackedScene" uid="uid://bwbciwh4pp34p" path="res://scenes/hitbox.tscn" id="2_tgwwj"]
 [ext_resource type="PackedScene" uid="uid://dj1dhf6q37ntp" path="res://scenes/killzone.tscn" id="3_4ra3w"]
+[ext_resource type="Script" uid="uid://v8aopihhnoxk" path="res://scripts/States/state_machine.gd" id="5_tcu2i"]
+[ext_resource type="Script" uid="uid://dlj1yjr2frgoo" path="res://scripts/States/idle_state.gd" id="6_xru6c"]
+[ext_resource type="Script" uid="uid://cr3mm1w8t80m5" path="res://scripts/States/run_state.gd" id="7_duryi"]
+[ext_resource type="Script" uid="uid://b0c2ov2mihkwp" path="res://scripts/States/fall_state.gd" id="8_sqrcy"]
+[ext_resource type="Script" uid="uid://b5so0dq1n5he6" path="res://scripts/States/jump_state.gd" id="9_rgqm7"]
+[ext_resource type="Texture2D" uid="uid://d1sfdxcnyun0b" path="res://assets/Player/Stab.png" id="10_ihube"]
+[ext_resource type="Texture2D" uid="uid://0ef5m0nxk3iy" path="res://assets/Player/PlayerSpriteWIPS.png" id="11_4uj3r"]
+[ext_resource type="Script" uid="uid://bn4y64l0sfreu" path="res://scripts/Enemy/enemy_movement_handler.gd" id="14_xru6c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
 size = Vector2(7, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5uy6h"]
 size = Vector2(11, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3v2ag"]
+atlas = ExtResource("10_ihube")
+region = Rect2(0, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jej6c"]
+atlas = ExtResource("10_ihube")
+region = Rect2(80, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f1ej7"]
+atlas = ExtResource("11_4uj3r")
+region = Rect2(0, 200, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oprun"]
+atlas = ExtResource("11_4uj3r")
+region = Rect2(80, 200, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2wvv"]
+atlas = ExtResource("2_4ra3w")
+region = Rect2(150, 0, 30, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
 atlas = ExtResource("1_md0e3")
@@ -29,10 +57,6 @@ region = Rect2(40, 0, 20, 40)
 atlas = ExtResource("1_md0e3")
 region = Rect2(60, 0, 20, 40)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_d2wvv"]
-atlas = ExtResource("2_4ra3w")
-region = Rect2(150, 0, 30, 50)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_fjrip"]
 atlas = ExtResource("2_4ra3w")
 region = Rect2(30, 0, 30, 50)
@@ -49,8 +73,41 @@ region = Rect2(90, 0, 30, 50)
 atlas = ExtResource("2_4ra3w")
 region = Rect2(120, 0, 30, 50)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_5uy6h"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_xf84c"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3v2ag")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_jej6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3v2ag")
+}],
+"loop": false,
+"name": &"Attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f1ej7")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_oprun")
+}],
+"loop": false,
+"name": &"Attack2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2wvv")
+}],
+"loop": true,
+"name": &"Fall",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qhqgy")
@@ -70,14 +127,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_d2wvv")
-}],
-"loop": true,
-"name": &"Jump",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_fjrip")
 }, {
 "duration": 1.0,
@@ -94,8 +143,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="enemy_simple" type="CharacterBody2D"]
+[node name="enemy_simple" type="CharacterBody2D" node_paths=PackedStringArray("movement_handler")]
 script = ExtResource("1_5uy6h")
+movement_handler = NodePath("movement_handler")
+SPEED = 400
 metadata/Speed = 50
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_6wrfq")]
@@ -120,14 +171,6 @@ collision_layer = 0
 position = Vector2(0.5, -12)
 shape = SubResource("RectangleShape2D_5uy6h")
 debug_color = Color(0.995213, 0, 0.209153, 0.42)
-
-[node name="AnimatedSprite2DEnemy" type="AnimatedSprite2D" parent="."]
-modulate = Color(0.165717, 0.327919, 1, 1)
-position = Vector2(0, -12)
-sprite_frames = SubResource("SpriteFrames_5uy6h")
-animation = &"Idle"
-autoplay = "Idle"
-frame_progress = 0.27389
 
 [node name="RayCastWall" type="RayCast2D" parent="."]
 unique_name_in_owner = true
@@ -160,6 +203,54 @@ polygon = PackedVector2Array(-9, 0, 5, -10, 10, 0, 5, 10)
 
 [node name="Timer" type="Timer" parent="FOV"]
 wait_time = 5.0
+
+[node name="state_machine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("5_tcu2i")
+starting_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="state_machine" node_paths=PackedStringArray("run_state", "fall_state", "jump_state")]
+script = ExtResource("6_xru6c")
+run_state = NodePath("../Run")
+fall_state = NodePath("../Fall")
+jump_state = NodePath("../Jump")
+animation_name = "Idle"
+
+[node name="Run" type="Node" parent="state_machine" node_paths=PackedStringArray("idle_state", "fall_state", "jump_state")]
+script = ExtResource("7_duryi")
+idle_state = NodePath("../Idle")
+fall_state = NodePath("../Fall")
+jump_state = NodePath("../Jump")
+SPEED = 50
+animation_name = "Run"
+
+[node name="Fall" type="Node" parent="state_machine" node_paths=PackedStringArray("run_state", "idle_state")]
+script = ExtResource("8_sqrcy")
+run_state = NodePath("../Run")
+idle_state = NodePath("../Idle")
+animation_name = "Fall"
+
+[node name="Jump" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "idle_state", "run_state")]
+script = ExtResource("9_rgqm7")
+Move_speed = 40
+fall_state = NodePath("../Fall")
+idle_state = NodePath("../Idle")
+run_state = NodePath("../Run")
+animation_name = "Fall"
+
+[node name="animations" type="AnimatedSprite2D" parent="."]
+modulate = Color(0, 0.133333, 1, 1)
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_xf84c")
+animation = &"Fall"
+autoplay = "Idle"
+
+[node name="movement_handler" type="Node" parent="." node_paths=PackedStringArray("parent", "raycast_wall", "raycast_ledgeR", "raycast_ledgeL", "raycast_jump")]
+script = ExtResource("14_xru6c")
+parent = NodePath("..")
+raycast_wall = NodePath("../RayCastWall")
+raycast_ledgeR = NodePath("../RayCastLedgeRight")
+raycast_ledgeL = NodePath("../RayCastLedgeLeft")
+raycast_jump = NodePath("../RayCastJump")
 
 [connection signal="area_entered" from="Killzone (temp)" to="." method="_on_killzone_temp_area_entered"]
 [connection signal="body_entered" from="Killzone (temp)" to="." method="_on_killzone_temp_body_entered"]
