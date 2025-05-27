@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://ms0tc24e110f"]
+[gd_scene load_steps=33 format=3 uid="uid://ms0tc24e110f"]
 
 [ext_resource type="Script" uid="uid://ds5ghem74uj71" path="res://scripts/Enemy/enemy_simple.gd" id="1_5uy6h"]
 [ext_resource type="Texture2D" uid="uid://sdl1yr4fpsgk" path="res://assets/Player/idle.png" id="1_md0e3"]
@@ -6,11 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://dlbs44q48nvbp" path="res://scenes/health_component.tscn" id="2_6wrfq"]
 [ext_resource type="PackedScene" uid="uid://bwbciwh4pp34p" path="res://scenes/hitbox.tscn" id="2_tgwwj"]
 [ext_resource type="PackedScene" uid="uid://dj1dhf6q37ntp" path="res://scenes/killzone.tscn" id="3_4ra3w"]
-[ext_resource type="Script" uid="uid://v8aopihhnoxk" path="res://scripts/States/state_machine.gd" id="5_tcu2i"]
-[ext_resource type="Script" uid="uid://dlj1yjr2frgoo" path="res://scripts/States/idle_state.gd" id="6_xru6c"]
-[ext_resource type="Script" uid="uid://cr3mm1w8t80m5" path="res://scripts/States/run_state.gd" id="7_duryi"]
-[ext_resource type="Script" uid="uid://b0c2ov2mihkwp" path="res://scripts/States/fall_state.gd" id="8_sqrcy"]
-[ext_resource type="Script" uid="uid://b5so0dq1n5he6" path="res://scripts/States/jump_state.gd" id="9_rgqm7"]
+[ext_resource type="Script" uid="uid://v8aopihhnoxk" path="res://scripts/component scripts and classes/State related/state_machine_Class.gd" id="5_tcu2i"]
+[ext_resource type="Script" uid="uid://b6mkmhwev3t4n" path="res://scripts/Enemy/States/idle_state.gd" id="6_43trs"]
+[ext_resource type="Script" uid="uid://tlwb63if125m" path="res://scripts/Enemy/States/run_state.gd" id="7_d6n1t"]
+[ext_resource type="Script" uid="uid://ckwms766pam86" path="res://scripts/Enemy/States/fall_state.gd" id="8_tcu2i"]
+[ext_resource type="Script" uid="uid://dvlbapeu0mcnx" path="res://scripts/Enemy/States/jump_state.gd" id="9_xru6c"]
+[ext_resource type="Script" uid="uid://y1ws347p8f7d" path="res://scripts/Enemy/States/chase_state.gd" id="10_duryi"]
 [ext_resource type="Texture2D" uid="uid://d1sfdxcnyun0b" path="res://assets/Player/Stab.png" id="10_ihube"]
 [ext_resource type="Texture2D" uid="uid://0ef5m0nxk3iy" path="res://assets/Player/PlayerSpriteWIPS.png" id="11_4uj3r"]
 [ext_resource type="Script" uid="uid://bn4y64l0sfreu" path="res://scripts/Enemy/enemy_movement_handler.gd" id="14_xru6c"]
@@ -20,6 +21,9 @@ size = Vector2(7, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5uy6h"]
 size = Vector2(11, 30)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_43trs"]
+radius = 51.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3v2ag"]
 atlas = ExtResource("10_ihube")
@@ -192,50 +196,64 @@ unique_name_in_owner = true
 position = Vector2(1.5, -2)
 target_position = Vector2(10, 0)
 
+[node name="PlayerTracker" type="RayCast2D" parent="."]
+position = Vector2(0, -22)
+target_position = Vector2(95, 0)
+
 [node name="FOV" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FOV"]
-position = Vector2(40.0033, -25)
-scale = Vector2(4.58577, 3.625)
-polygon = PackedVector2Array(-9, 0, 5, -10, 10, 0, 5, 10)
-
 [node name="Timer" type="Timer" parent="FOV"]
 wait_time = 5.0
+one_shot = true
+
+[node name="shape" type="CollisionShape2D" parent="FOV"]
+position = Vector2(44, -23)
+shape = SubResource("CircleShape2D_43trs")
 
 [node name="state_machine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
 script = ExtResource("5_tcu2i")
 starting_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="state_machine" node_paths=PackedStringArray("run_state", "fall_state", "jump_state")]
-script = ExtResource("6_xru6c")
+[node name="Idle" type="Node" parent="state_machine" node_paths=PackedStringArray("run_state", "fall_state", "jump_state", "chase_state")]
+script = ExtResource("6_43trs")
 run_state = NodePath("../Run")
 fall_state = NodePath("../Fall")
 jump_state = NodePath("../Jump")
+chase_state = NodePath("../Chase")
 animation_name = "Idle"
 
-[node name="Run" type="Node" parent="state_machine" node_paths=PackedStringArray("idle_state", "fall_state", "jump_state")]
-script = ExtResource("7_duryi")
+[node name="Run" type="Node" parent="state_machine" node_paths=PackedStringArray("idle_state", "fall_state", "jump_state", "chase_state")]
+script = ExtResource("7_d6n1t")
 idle_state = NodePath("../Idle")
 fall_state = NodePath("../Fall")
 jump_state = NodePath("../Jump")
-SPEED = 50
+chase_state = NodePath("../Chase")
 animation_name = "Run"
 
-[node name="Fall" type="Node" parent="state_machine" node_paths=PackedStringArray("run_state", "idle_state")]
-script = ExtResource("8_sqrcy")
+[node name="Fall" type="Node" parent="state_machine" node_paths=PackedStringArray("run_state", "idle_state", "chase_state")]
+script = ExtResource("8_tcu2i")
 run_state = NodePath("../Run")
 idle_state = NodePath("../Idle")
+chase_state = NodePath("../Chase")
 animation_name = "Fall"
 
-[node name="Jump" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "idle_state", "run_state")]
-script = ExtResource("9_rgqm7")
-Move_speed = 40
+[node name="Jump" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "idle_state", "run_state", "chase_state")]
+script = ExtResource("9_xru6c")
 fall_state = NodePath("../Fall")
 idle_state = NodePath("../Idle")
 run_state = NodePath("../Run")
+chase_state = NodePath("../Chase")
 animation_name = "Fall"
+
+[node name="Chase" type="Node" parent="state_machine" node_paths=PackedStringArray("idle_state", "failed_state", "fall_state", "jump_state")]
+script = ExtResource("10_duryi")
+idle_state = NodePath("../Idle")
+failed_state = NodePath("../Run")
+fall_state = NodePath("../Fall")
+jump_state = NodePath("../Jump")
+animation_name = "Run"
 
 [node name="animations" type="AnimatedSprite2D" parent="."]
 modulate = Color(0, 0.133333, 1, 1)
@@ -255,3 +273,6 @@ raycast_jump = NodePath("../RayCastJump")
 [connection signal="area_entered" from="Killzone (temp)" to="." method="_on_killzone_temp_area_entered"]
 [connection signal="body_entered" from="Killzone (temp)" to="." method="_on_killzone_temp_body_entered"]
 [connection signal="body_entered" from="FOV" to="." method="_on_fov_body_entered"]
+[connection signal="body_exited" from="FOV" to="." method="_on_fov_body_exited"]
+[connection signal="timeout" from="FOV/Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="FOV/Timer" to="." method="_on_chase_timeout"]

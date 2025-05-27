@@ -5,14 +5,14 @@
 [ext_resource type="Texture2D" uid="uid://sdl1yr4fpsgk" path="res://assets/Player/idle.png" id="2_g2els"]
 [ext_resource type="Texture2D" uid="uid://djfowxke0m2cc" path="res://assets/Player/run.png" id="3_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://t3qpntly515h" path="res://scenes/attack.tscn" id="4_dqkch"]
-[ext_resource type="Script" uid="uid://v8aopihhnoxk" path="res://scripts/States/state_machine.gd" id="4_qlg0r"]
+[ext_resource type="Script" uid="uid://v8aopihhnoxk" path="res://scripts/component scripts and classes/State related/state_machine_Class.gd" id="4_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://0ef5m0nxk3iy" path="res://assets/Player/PlayerSpriteWIPS.png" id="5_3v2ag"]
 [ext_resource type="Script" uid="uid://i7gx1emvm6lv" path="res://scripts/Player/player_movement_handler.gd" id="6_jej6c"]
-[ext_resource type="Script" uid="uid://dlj1yjr2frgoo" path="res://scripts/States/idle_state.gd" id="6_tuyoq"]
-[ext_resource type="Script" uid="uid://cr3mm1w8t80m5" path="res://scripts/States/run_state.gd" id="7_fjrip"]
-[ext_resource type="Script" uid="uid://b0c2ov2mihkwp" path="res://scripts/States/fall_state.gd" id="8_smehm"]
-[ext_resource type="Script" uid="uid://b5so0dq1n5he6" path="res://scripts/States/jump_state.gd" id="9_ur7pv"]
-[ext_resource type="Script" uid="uid://c8pv7xodr6gpy" path="res://scripts/States/attack_state.gd" id="11_d2wvv"]
+[ext_resource type="Script" uid="uid://dlj1yjr2frgoo" path="res://scripts/Player/States/idle_state.gd" id="6_tuyoq"]
+[ext_resource type="Script" uid="uid://cr3mm1w8t80m5" path="res://scripts/Player/States/run_state.gd" id="7_fjrip"]
+[ext_resource type="Script" uid="uid://b0c2ov2mihkwp" path="res://scripts/Player/States/fall_state.gd" id="8_smehm"]
+[ext_resource type="Script" uid="uid://b5so0dq1n5he6" path="res://scripts/Player/States/jump_state.gd" id="9_ur7pv"]
+[ext_resource type="Script" uid="uid://c8pv7xodr6gpy" path="res://scripts/Player/States/attack_state.gd" id="11_d2wvv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjrip"]
 size = Vector2(7, 31)
@@ -165,6 +165,7 @@ animation = &"Attack2"
 autoplay = "Idle"
 
 [node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
@@ -205,7 +206,6 @@ animation_name = "Fall"
 
 [node name="Jump" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "idle_state", "run_state")]
 script = ExtResource("9_ur7pv")
-jump_velocity = -400
 fall_state = NodePath("../Fall")
 idle_state = NodePath("../Idle")
 run_state = NodePath("../Run")

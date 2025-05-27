@@ -17,7 +17,6 @@ func enter():
 	timer=Duration #fail-safe incase loopnig animation gets linked
 	aoe.Damage=Damage
 	aoe.Knockback=Knockback
-	#aoe.Duration=Duration
 	aoe.Cooldown=Cooldown
 # desired FPS = NumFrames/(Duration in seconds)
 	parent.animations.sprite_frames.set_animation_speed(animation_name,Frame_number/Duration)

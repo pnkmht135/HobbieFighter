@@ -2,25 +2,25 @@ class_name State
 extends Node
 
 @export var animation_name: String
-@export var movement_speed: float = 200
 
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 var parent: CharacterBody2D
 var movement_handler: Node #change to be its own class
+var SPEED: int
+var JUMP: int
+var animations: AnimatedSprite2D
 
 func enter() ->void:
-### Check if parent has animations (should have)
-	if parent.animations: 
-		parent.animations.play(animation_name)
+### Check if has animations (should have)
+	if animations: 
+		animations.play(animation_name)
 	else:
-		print("WARNING: no sprite animations found for ", parent.name)
+		print("WARNING: no sprite animations found for ", parent.name, self.name)
 
 func exit()-> void:
 	pass
 	
 func process_physics(delta: float) -> State:
-# not automaically applying gravity to parent, incase want states for floating objefcts
-# and because the return null limits usage of super() anyway
 	return null
 
 func process_input(event: InputEvent)->State:
@@ -28,7 +28,6 @@ func process_input(event: InputEvent)->State:
 
 func process_frame(delta: float)->State:
 	return null
-# what is a frame and what do i need to do with it????
 	
 func want_jump()->bool:
 	return movement_handler.want_jump()
@@ -38,3 +37,12 @@ func move()->bool:
 	
 func get_direction()->float:
 	return movement_handler.get_direction()
+	
+func flip_assets(direction: int)->void:
+	animations.flip_h= direction<0
+	if parent.fliplist:
+		for obj in parent.fliplist:
+			obj.scale.x=direction
+	else:
+		print ("No fliplist", parent.name, self.name)
+	
