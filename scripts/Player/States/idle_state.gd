@@ -11,8 +11,7 @@ extends State
 
 func enter():
 	super()
-	#parent.velocity.x=0 # no movement in Idle state!
-	parent.velocity.x = move_toward(parent.velocity.x, 0,stop_slide)
+	parent.velocity.x=0 # no movement in Idle state!
 
 func process_physics(delta: float)->State:
 	parent.velocity.y+= gravity*delta

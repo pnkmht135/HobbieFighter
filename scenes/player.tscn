@@ -216,6 +216,7 @@ script = ExtResource("11_d2wvv")
 fall_state = NodePath("../Fall")
 idle_state = NodePath("../Idle")
 aoe = NodePath("../../attack1AOE")
+Knockback = 10
 Duration = 0.5
 animation_name = "Attack"
 
@@ -230,12 +231,16 @@ Frame_number = 2
 animation_name = "Attack2"
 
 [node name="attack1AOE" parent="." instance=ExtResource("4_dqkch")]
+collision_layer = 0
+collision_mask = 2
 
 [node name="shape" type="CollisionShape2D" parent="attack1AOE"]
 position = Vector2(19, -12)
 shape = SubResource("RectangleShape2D_dqkch")
 
 [node name="attack2AOE" parent="." instance=ExtResource("4_dqkch")]
+collision_layer = 0
+collision_mask = 2
 
 [node name="shape" type="CollisionShape2D" parent="attack2AOE"]
 position = Vector2(19, -12)

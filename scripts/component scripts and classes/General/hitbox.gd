@@ -3,21 +3,20 @@ class_name Hitbox
 
 @export var health_component: HealthComponent =null
 @export var parent : CharacterBody2D
-@export var bounce : int = 500
+@export var knockbackDur : float = 1
+@export var bounce: float = -10
 
 func damage(attack: Attack):
 	print("count in an attack")
 	if health_component:
 		print("damaging health comp")
 		health_component.damage(attack)
-	if parent:
-		print("go flyting bitch")
-		parent.velocity=Vector2(attack.knowckback*10,-attack.knowckback*10)
-		#-bounce
-		#parent.velocity.x=attack.knowckback*10
-		#parent.move_and_slide()
-		await parent.is_on_floor()
-		#while not parent.is_on_floor():
-			#parent.velocity.x=attack.knowckback
-		#parent.velocity.x=0
 		
+func apply_knockback(direction, attack: Attack):
+	if parent is CharacterBody2D: #???
+		var knockback= attack.knowckback*direction
+		print("knockback of ",direction)
+		parent.velocity.x=knockback
+		parent.velocity.y=bounce*attack.knowckback
+		await get_tree().create_timer(knockbackDur).timeout
+		parent.velocity.x=0

@@ -30,4 +30,8 @@ func _on_area_entered(area: Area2D) -> void:
 	if area is Hitbox:
 		print("hitbox found")
 		area.damage(attack)
+		var direction = sign(area.global_position.x-global_position.x)
+		print(area.position.x,position.x)
+		area.apply_knockback(direction, attack)
+		
 	#if it encounters an area that can take damage (a hitbox), damage it
