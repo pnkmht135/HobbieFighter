@@ -4,6 +4,7 @@ extends State
 @export var failed_state: State
 @export var fall_state: State
 @export var jump_state: State
+@export var hurt_state: State
 
 var direction
 var CHASE_BOOST=1
@@ -42,3 +43,7 @@ func process_input(event: InputEvent)->State:
 			return(idle_state)	
 		return(fall_state)
 	return null	
+
+func damage_taken(attack):
+	hurt_state.attack=attack
+	return hurt_state

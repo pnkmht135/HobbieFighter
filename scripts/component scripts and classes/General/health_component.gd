@@ -11,7 +11,6 @@ func _ready() -> void:
 func damage (attack: Attack) -> void:
 	print("TOOK -",attack.damage)
 	health -= attack.damage
-	#parent.velocity.y+= damage_bounce
 	if health <=0:
 		get_parent().queue_free()
 

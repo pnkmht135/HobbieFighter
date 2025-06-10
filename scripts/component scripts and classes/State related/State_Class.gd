@@ -6,9 +6,17 @@ extends Node
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 var parent: CharacterBody2D
 var movement_handler: Node #change to be its own class
+var hitbox: Hitbox 
 var SPEED: int
 var JUMP: int
 var animations: AnimatedSprite2D
+
+#func connect_hitbox():
+	##print(parent.name, name," hitbox connected!")
+	#hitbox.damage_taken.connect(damage_taken)
+
+func damage_taken(attack:Attack)-> State:
+	return null
 
 func enter() ->void:
 ### Check if has animations (should have)
@@ -37,7 +45,7 @@ func move()->bool:
 	
 func get_direction()->float:
 	return movement_handler.get_direction()
-	
+
 func flip_assets(direction: int)->void:
 	animations.flip_h= direction<0
 	if parent.fliplist:

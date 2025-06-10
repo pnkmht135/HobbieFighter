@@ -5,6 +5,7 @@ extends State
 @export var fall_state: State
 @export var jump_state: State
 @export var chase_state: State
+@export var hurt_state: State
 
 @export var stop_slide: float = 0.000000001
 
@@ -29,3 +30,7 @@ func process_input(event: InputEvent)->State:
 	if parent.SEEN:
 		return chase_state
 	return null	
+
+func damage_taken(attack):
+	hurt_state.attack=attack
+	return hurt_state

@@ -1,4 +1,7 @@
+class_name  Enemy
 extends CharacterBody2D
+
+@export var type: EnemyType
 
 @onready var state_machine=$state_machine
 @onready var animations: AnimatedSprite2D = $animations
@@ -7,14 +10,18 @@ extends CharacterBody2D
 @onready var raycast_ledgeL: RayCast2D = %RayCastLedgeLeft
 @onready var raycast_jump: RayCast2D = %RayCastJump
 @onready var fov: Area2D = $FOV
+@onready var hitbox: Hitbox = $Hitbox
+
 var sight_line: RayCast2D
 var chase_timer: Timer 
 
 @export var movement_handler: Node 
-@export var SPEED: int = 20.0
-@export var JUMP_VELOCITY = -400.0
-@export var CHASE_BOOST: float =1.5
-@export var FOLLOWS: bool = true
+@export var FOLLOWS: bool = false
+# default fallbacks for enemy stats
+var SPEED: int = 10
+var JUMP_VELOCITY : int = -30
+var JUMP_BLOCKS: int = 2
+var CHASE_BOOST: float = 1.5
 
 var SEEN: bool= false
 var insideFOV: bool= false
@@ -29,7 +36,12 @@ var insideFOV: bool= false
 	]
 
 func _ready() -> void:
-	state_machine.init(self,movement_handler, animations,SPEED,JUMP_VELOCITY)
+	animations.sprite_frames=type
+	SPEED = type.Speed
+	JUMP_VELOCITY = type.Jump
+	JUMP_BLOCKS=  type.JumpBlocks
+	CHASE_BOOST = type.ChaseBoost
+	state_machine.init(self,movement_handler, hitbox, animations,SPEED,JUMP_VELOCITY)
 	if !FOLLOWS:
 		fov.monitorable=false
 		fov.monitoring=false

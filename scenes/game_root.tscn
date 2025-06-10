@@ -189,7 +189,7 @@ tile_map_data = PackedByteArray("AAD6/wUAAAAAAAAAAAD6/wYAAAAAAAEAAAD7/wUAAAAAAAA
 tile_set = SubResource("TileSet_jb3nc")
 
 [node name="Player" parent="." instance=ExtResource("1_78s5d")]
-position = Vector2(253, 22)
+position = Vector2(653, -49)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -10)
@@ -205,27 +205,17 @@ shape = SubResource("WorldBoundaryShape2D_jb3nc")
 
 [node name="enemy" parent="." instance=ExtResource("4_jb3nc")]
 position = Vector2(1753, -7)
-SPEED = 30
-JUMP_VELOCITY = -300.0
 metadata/Speed = 0
 
 [node name="enemy0" parent="." instance=ExtResource("4_jb3nc")]
 position = Vector2(755, -49)
-SPEED = 0
-JUMP_VELOCITY = -300.0
-FOLLOWS = false
 metadata/Speed = 0
 
 [node name="enemy02" parent="." instance=ExtResource("4_jb3nc")]
-position = Vector2(696, -47)
-SPEED = 0
-JUMP_VELOCITY = -300.0
-FOLLOWS = false
+position = Vector2(222, 18)
+FOLLOWS = true
 metadata/Speed = 0
 
 [node name="enemy1" parent="." instance=ExtResource("4_jb3nc")]
 position = Vector2(1068, 77)
-SPEED = 50
-JUMP_VELOCITY = -300.0
-FOLLOWS = false
 metadata/Speed = 0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://ms0tc24e110f"]
+[gd_scene load_steps=39 format=3 uid="uid://ms0tc24e110f"]
 
 [ext_resource type="Script" uid="uid://ds5ghem74uj71" path="res://scripts/Enemy/enemy_simple.gd" id="1_5uy6h"]
 [ext_resource type="Texture2D" uid="uid://sdl1yr4fpsgk" path="res://assets/Player/idle.png" id="1_md0e3"]
@@ -15,12 +15,11 @@
 [ext_resource type="Script" uid="uid://y1ws347p8f7d" path="res://scripts/Enemy/States/chase_state.gd" id="10_duryi"]
 [ext_resource type="Texture2D" uid="uid://d1sfdxcnyun0b" path="res://assets/Player/Stab.png" id="10_ihube"]
 [ext_resource type="Texture2D" uid="uid://0ef5m0nxk3iy" path="res://assets/Player/PlayerSpriteWIPS.png" id="11_4uj3r"]
-[ext_resource type="Script" uid="uid://dp13e3yxyxyj8" path="res://scripts/Enemy/States/Hurt.gd" id="12_ihube"]
 [ext_resource type="Script" uid="uid://bn4y64l0sfreu" path="res://scripts/Enemy/enemy_movement_handler.gd" id="14_xru6c"]
 [ext_resource type="Texture2D" uid="uid://cpqrq5aovvckv" path="res://assets/Enemies/GreenPerson.png" id="16_rgqm7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
-size = Vector2(14, 40)
+size = Vector2(7, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5uy6h"]
 size = Vector2(11, 30)
@@ -184,30 +183,29 @@ animations = [{
 }]
 
 [node name="enemy_simple" type="CharacterBody2D" node_paths=PackedStringArray("movement_handler")]
-collision_layer = 0
 script = ExtResource("1_5uy6h")
 type = ExtResource("2_sqrcy")
 movement_handler = NodePath("movement_handler")
+Follows = null
 metadata/Speed = 50
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_6wrfq")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, -2)
+position = Vector2(0.5, -11)
 shape = SubResource("RectangleShape2D_md0e3")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("health_component", "parent") instance=ExtResource("2_tgwwj")]
-collision_layer = 4
+collision_layer = 2
 collision_mask = 0
 health_component = NodePath("../HealthComponent")
 parent = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0.5, -6)
+position = Vector2(0.5, -11)
 shape = SubResource("RectangleShape2D_md0e3")
 
 [node name="Killzone (temp)" parent="." instance=ExtResource("3_4ra3w")]
-visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone (temp)"]
@@ -240,7 +238,6 @@ position = Vector2(0, -22)
 target_position = Vector2(95, 0)
 
 [node name="FOV" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 2
 
@@ -256,65 +253,51 @@ shape = SubResource("CircleShape2D_43trs")
 script = ExtResource("5_tcu2i")
 starting_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="state_machine" node_paths=PackedStringArray("run_state", "fall_state", "jump_state", "chase_state", "hurt_state")]
+[node name="Idle" type="Node" parent="state_machine" node_paths=PackedStringArray("run_state", "fall_state", "jump_state", "chase_state")]
 script = ExtResource("6_43trs")
 run_state = NodePath("../Run")
 fall_state = NodePath("../Fall")
 jump_state = NodePath("../Jump")
 chase_state = NodePath("../Chase")
-hurt_state = NodePath("../Hurt")
 animation_name = "Idle"
 
-[node name="Run" type="Node" parent="state_machine" node_paths=PackedStringArray("idle_state", "fall_state", "jump_state", "chase_state", "hurt_state")]
+[node name="Run" type="Node" parent="state_machine" node_paths=PackedStringArray("idle_state", "fall_state", "jump_state", "chase_state")]
 script = ExtResource("7_d6n1t")
 idle_state = NodePath("../Idle")
 fall_state = NodePath("../Fall")
 jump_state = NodePath("../Jump")
 chase_state = NodePath("../Chase")
-hurt_state = NodePath("../Hurt")
 animation_name = "Run"
 
-[node name="Fall" type="Node" parent="state_machine" node_paths=PackedStringArray("run_state", "idle_state", "chase_state", "hurt_state")]
+[node name="Fall" type="Node" parent="state_machine" node_paths=PackedStringArray("run_state", "idle_state", "chase_state")]
 script = ExtResource("8_tcu2i")
 run_state = NodePath("../Run")
 idle_state = NodePath("../Idle")
 chase_state = NodePath("../Chase")
-hurt_state = NodePath("../Hurt")
 animation_name = "Fall"
 
-[node name="Jump" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "idle_state", "run_state", "chase_state", "hurt_state")]
+[node name="Jump" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "idle_state", "run_state", "chase_state")]
 script = ExtResource("9_xru6c")
 fall_state = NodePath("../Fall")
 idle_state = NodePath("../Idle")
 run_state = NodePath("../Run")
 chase_state = NodePath("../Chase")
-hurt_state = NodePath("../Hurt")
 animation_name = "Jump"
 
-[node name="Chase" type="Node" parent="state_machine" node_paths=PackedStringArray("idle_state", "failed_state", "fall_state", "jump_state", "hurt_state")]
+[node name="Chase" type="Node" parent="state_machine" node_paths=PackedStringArray("idle_state", "failed_state", "fall_state", "jump_state")]
 script = ExtResource("10_duryi")
 idle_state = NodePath("../Idle")
 failed_state = NodePath("../Run")
 fall_state = NodePath("../Fall")
 jump_state = NodePath("../Jump")
-hurt_state = NodePath("../Hurt")
 animation_name = "Run"
-
-[node name="Hurt" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "idle_state", "run_state", "chase_state", "jump_state")]
-script = ExtResource("12_ihube")
-fall_state = NodePath("../Fall")
-idle_state = NodePath("../Idle")
-run_state = NodePath("../Run")
-chase_state = NodePath("../Chase")
-jump_state = NodePath("../Jump")
-animation_name = "Fall"
-metadata/_custom_type_script = "uid://cleks3mk8s7q"
 
 [node name="animations" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_xf84c")
 animation = &"Test"
 autoplay = "Idle"
+frame_progress = 0.812387
 
 [node name="movement_handler" type="Node" parent="." node_paths=PackedStringArray("parent", "raycast_wall", "raycast_ledgeR", "raycast_ledgeL", "raycast_jump")]
 script = ExtResource("14_xru6c")

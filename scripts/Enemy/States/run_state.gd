@@ -4,6 +4,7 @@ extends State
 @export var fall_state: State
 @export var jump_state: State
 @export var chase_state: State
+@export var hurt_state: State
 
 var direction
 
@@ -31,3 +32,7 @@ func process_input(event: InputEvent)->State:
 	if parent.SEEN and parent.is_on_floor():
 		return(chase_state)	
 	return null	
+
+func damage_taken(attack):
+	hurt_state.attack=attack
+	return hurt_state

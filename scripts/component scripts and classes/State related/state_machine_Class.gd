@@ -8,7 +8,7 @@ var SPEED: int
 var JUMP :int
 
 func init(parent: CharacterBody2D, 
-			movement_handler, 
+			movement_handler, hitbox,
 			animations : AnimatedSprite2D , 
 			Speed, Jump)->void:
 	# Set parent for all states in the machine 
@@ -18,8 +18,16 @@ func init(parent: CharacterBody2D,
 		child.animations=animations
 		child.SPEED=Speed
 		child.JUMP=Jump
+		if hitbox:
+			child.hitbox=hitbox
+			hitbox.damage_taken.connect(damage_taken)
 	# enter starting state
 	change_state(starting_state)
+
+func damage_taken(attack):
+	var new_state=current_state.damage_taken(attack)
+	if new_state:
+		change_state(new_state)
 
 func change_state(new_state: State):
 	# exit current state if applicable
