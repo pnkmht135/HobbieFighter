@@ -20,10 +20,10 @@
 [ext_resource type="Texture2D" uid="uid://cpqrq5aovvckv" path="res://assets/Enemies/GreenPerson.png" id="16_rgqm7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
-size = Vector2(14, 40)
+size = Vector2(15.3985, 40.1207)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5uy6h"]
-size = Vector2(11, 30)
+size = Vector2(11.9798, 46.6204)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_43trs"]
 radius = 51.0
@@ -193,7 +193,7 @@ metadata/Speed = 50
 [node name="HealthComponent" parent="." instance=ExtResource("2_6wrfq")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, -2)
+position = Vector2(1, -2.06033)
 shape = SubResource("RectangleShape2D_md0e3")
 
 [node name="Hitbox" parent="." node_paths=PackedStringArray("health_component", "parent") instance=ExtResource("2_tgwwj")]
@@ -203,44 +203,47 @@ health_component = NodePath("../HealthComponent")
 parent = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0.5, -6)
+position = Vector2(1.124, -5)
+scale = Vector2(0.829855, 1.09027)
 shape = SubResource("RectangleShape2D_md0e3")
 
 [node name="Killzone (temp)" parent="." instance=ExtResource("3_4ra3w")]
-visible = false
+scale = Vector2(1.18122, 0.731031)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone (temp)"]
-position = Vector2(0.5, -12)
+position = Vector2(0.91025, -3.45366)
+scale = Vector2(0.83738, 1.02842)
 shape = SubResource("RectangleShape2D_5uy6h")
 debug_color = Color(0.995213, 0, 0.209153, 0.42)
 
 [node name="RayCastWall" type="RayCast2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(1, -28.5)
-target_position = Vector2(10, 0)
+scale = Vector2(1.00274, 1)
+target_position = Vector2(17, -0.5)
 
 [node name="RayCastLedgeRight" type="RayCast2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(4, 3.5)
+position = Vector2(4, 18)
 target_position = Vector2(0, 45)
 
 [node name="RayCastLedgeLeft" type="RayCast2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(-3, 3.5)
+position = Vector2(-3, 18)
 target_position = Vector2(0, 45)
 
 [node name="RayCastJump" type="RayCast2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(1.5, -2)
-target_position = Vector2(10, 0)
+position = Vector2(1.5, 12)
+scale = Vector2(1.01193, 1)
+target_position = Vector2(17, 0)
 
 [node name="PlayerTracker" type="RayCast2D" parent="."]
 position = Vector2(0, -22)
 target_position = Vector2(95, 0)
 
 [node name="FOV" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 2
 
